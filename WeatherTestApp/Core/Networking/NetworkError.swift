@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  NetworkError.swift
 //  WeatherTestApp
 //
 

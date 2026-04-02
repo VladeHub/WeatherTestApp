@@ -79,9 +79,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 private extension LocationManager {
     func setupTimeout() {
         timeoutTask = Task {
-            try? await Task.sleep(nanoseconds: 600_000_000_000)
+            try? await Task.sleep(nanoseconds: 300_000_000_000)
             if let continuation = self.continuation {
-                print("⏰ Location timeout")
                 self.continuation = nil
                 self.manager.stopUpdatingLocation()
                 continuation.resume(throwing: LocationError.timeout)
@@ -99,10 +98,8 @@ private extension LocationManager {
         manager.stopUpdatingLocation()
         
         if let coordinate = coordinate {
-            print("✅ Location obtained: \(coordinate.latitude), \(coordinate.longitude)")
             continuation.resume(returning: coordinate)
         } else {
-            print("❌ No location obtained")
             continuation.resume(throwing: LocationError.notAvailable)
         }
     }
@@ -115,7 +112,6 @@ private extension LocationManager {
         self.continuation = nil
         manager.stopUpdatingLocation()
         
-        print("❌ Location error: \(error)")
         continuation.resume(throwing: error)
     }
 }

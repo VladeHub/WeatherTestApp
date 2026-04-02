@@ -4,7 +4,6 @@
 //
 
 import Foundation
-internal import _LocationEssentials
 internal import Combine
 
 @MainActor
@@ -21,7 +20,6 @@ final class WeatherViewModel: ObservableObject {
         defer { isLoading = false }
         
         do {
-            // Используем метод, который загружает оба запроса параллельно
             let (current, forecast) = try await weatherService.getWeatherData()
             
             self.currentWeather = current
