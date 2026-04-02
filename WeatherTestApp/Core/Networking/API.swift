@@ -8,14 +8,12 @@ import Foundation
 
 struct APIClient {
     private static let apiKey = "fa8b3df74d4042b9aa7135114252304"
-    private static let baseURL = "http://api.weatherapi.com/v1/" // http https
+    private static let baseURL = "http://api.weatherapi.com/v1/"
     private static let moscowCoordinates = "55.7558,37.6173"
     
     static func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
      
         let query = await getLocationQuery()
-        
-        print("📍 Using location query: \(query)")
         
         var components = URLComponents(string: baseURL + endpoint.rawValue)
         var items = [
@@ -34,16 +32,12 @@ struct APIClient {
             throw NetworkError.badUrl
         }
         
-        print("🌐 Request URL: \(url)")
-        
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
             
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.badResponse
             }
-            
-            print("📡 Response status code: \(httpResponse.statusCode)")
             
             guard 200..<300 ~= httpResponse.statusCode else {
                 // Выводим ошибку от сервера для диагностики
@@ -58,7 +52,6 @@ struct APIClient {
             
             do {
                 let result = try decoder.decode(T.self, from: data)
-                print("✅ Successfully decoded \(T.self)")
                 return result
             } catch {
                 print("❌ Decoding error: \(error)")
