@@ -17,7 +17,7 @@ struct ForecastResponse: Decodable {
         let day: Day
         let hour: [Hour]
         
-        var id: String { date } //sui
+        var id: String { date }
     }
 
     struct Day: Decodable {
@@ -30,7 +30,7 @@ struct ForecastResponse: Decodable {
         let tempC: Double
         let condition: Condition
         
-        var id: String { time } //sui
+        var id: String { time }
     }
 
     struct Condition: Decodable {
